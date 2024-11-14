@@ -521,7 +521,7 @@ namespace ov_musicgen
                {
                   //slice the new key values into the existing past_key_vals buffer using OpenCL.
                   std::array<size_t, 3> srcOrigin = { 0, 0, 0 }; // Start at the beginning of the source buffer
-                  std::array<size_t, 3> dstOrigin = { 0, _past_length,  0 };
+                  std::array<size_t, 3> dstOrigin = { 0, (unsigned long) _past_length,  0 };
 
                   // Size of one element
                   std::array<size_t, 3> region = { sizeof(ov::float16) * past_key_values_shape[3], 1, past_key_values_shape[0] * past_key_values_shape[1] };
