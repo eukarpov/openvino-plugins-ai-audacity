@@ -60,4 +60,4 @@ jobs:
         with:
           name: ${{ env.PACKAGE_NAME }}
           path: ${{ env.ARTIFACT_PATH }}/${{ env.PACKAGE_NAME }}.zip
-          retention-days: 90
+          retention-days: 89
