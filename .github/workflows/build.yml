@@ -1,0 +1,63 @@
+name: Build openvino plugins
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  AUDACITY_REPO: audacity/audacity
+  AUDACITY_BRANCH: Audacity-3.4.2
+  AUDACITY_VERSION: audacity-3.4.2
+
+  WHISPER_REPO: ggerganov/whisper.cpp
+  WHISPER_BRANCH: v1.5.4
+  WHISPER_VERSION: whisper-1.5.4
+
+  PACKAGE_NAME: Audacity-OpenVINO-macos-arm64-3.4.2-R1
+  
+  ARTIFACT_PATH: ${{ github.workspace }}/artifact
+  BUILD_PATH: ${{ github.workspace }}/build
+  PACKAGE_PATH: ${{ github.workspace }}/package
+  SOURCE_PATH: ${{ github.workspace }}/code
+
+jobs:
+  build-openvino-plugins:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: ${{ github.workspace }}
+
+      - name: Checkout audacity
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.AUDACITY_REPO }}
+          ref: ${{ env.AUDACITY_BRANCH }}
+          path: ${{ env.SOURCE_PATH }}/${{ env.AUDACITY_VERSION }}
+
+      - name: Checkout whisper
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.WHISPER_REPO }}
+          ref: ${{ env.WHISPER_BRANCH }}
+          path: ${{ env.SOURCE_PATH }}/${{ env.WHISPER_VERSION }}
+
+      - name: Build audacity
+        run: |
+          .github/scripts/build.sh
+
+      - name: Pack Audacity.app
+        run: |
+          .github/scripts/pack.sh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: ${{ env.ARTIFACT_PATH }}/${{ env.PACKAGE_NAME }}.zip
+          retention-days: 90

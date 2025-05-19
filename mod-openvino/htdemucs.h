@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-namespace torch
+namespace at
 {
     class Tensor;
 }
@@ -41,11 +41,11 @@ namespace ovdemucs
         std::shared_ptr< HTDemucs_impl > _impl;
 #endif
         std::shared_ptr< HTDemucs_openvino_impl > _impl_ov;
-        bool _apply_model_0(torch::Tensor& mix, torch::Tensor& out, int64_t shifts = 1, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
-        bool _apply_model_1(torch::Tensor& mix, torch::Tensor& out, int64_t shifts = 1, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
-        bool _apply_model_2(TensorChunk& mix, torch::Tensor& out, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
-        bool _apply_model_3(TensorChunk& mix, torch::Tensor& out);
-        bool _actually_run_model(torch::Tensor& mix_tensor, torch::Tensor& x);
+        bool _apply_model_0(at::Tensor& mix, at::Tensor& out, int64_t shifts = 1, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
+        bool _apply_model_1(at::Tensor& mix, at::Tensor& out, int64_t shifts = 1, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
+        bool _apply_model_2(TensorChunk& mix, at::Tensor& out, bool split = true, double overlap = 0.25, double transition_power = 1., int64_t static_shifts = 1);
+        bool _apply_model_3(TensorChunk& mix, at::Tensor& out);
+        bool _actually_run_model(at::Tensor& mix_tensor, at::Tensor& x);
 
         int64_t _shifts = 0;
         int64_t _offsets = 0;
